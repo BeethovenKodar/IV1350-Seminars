@@ -29,13 +29,12 @@ public class View {
         System.out.println("\nSale started, scan items\n");
         showOnScreen(contr.scanItem(13,1));
         showOnScreen(contr.scanItem(10,2));
-        showOnScreen(contr.scanItem(10,2));
-        showOnScreen(contr.scanItem(14,3));
-        showOnScreen(contr.scanItem(14,3));
-        showOnScreen(contr.scanItem(13,1));
+        showOnScreen(contr.scanItem(14,1));
+        showOnScreen(contr.scanItem(10,3));
+        showOnScreen(contr.scanItem(9,5));
         showOnScreen(contr.endSale());
-        showPriceAfterDiscountOnScreen(contr.signalDiscountRequest(121));
-        showChangeOnScreen(contr.pay(600));
+        contr.pay(600);
+        showPrintingReciept();
         contr.handleExternalSystems();
     }
 
@@ -53,11 +52,7 @@ public class View {
         }
     }
 
-    private void showPriceAfterDiscountOnScreen(DisplayDTO finalPrice) {
-        System.out.println("Price after used discounts: " + finalPrice.getRunningTotal() + ", VAT included.");
-    }
-
-    private void showChangeOnScreen(DisplayDTO printOut) {
+    private void showPrintingReciept() {
         System.out.println("Printing reciept...\n");
     }
 }

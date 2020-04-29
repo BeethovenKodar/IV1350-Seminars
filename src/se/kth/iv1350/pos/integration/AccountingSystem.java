@@ -14,9 +14,13 @@ public class AccountingSystem {
     /**
      * A method updating the accounting system.
      *
-     * @param amountRecieved The amount received from selling a number of items in a sale.
+     * @param amountReceived The amount received from selling a number of items in a sale.
      */
-    public void updateAccounting (int amountRecieved) {
-        currentBalance += amountRecieved;
+    void updateAccounting (int amountReceived) {
+        currentBalance += amountReceived;
+    }
+
+    public int getCurrentBalance() {
+        return currentBalance;
     }
 }

@@ -14,7 +14,7 @@ public class SaleLog {
      * This method adds a finished sale to the array of <code>finishedSales</code>.
      * @param saleInfo The finished sale to add.
      */
-    public void addToSaleLog(SaleInfoDTO saleInfo) {
+    void addToSaleLog(SaleInfoDTO saleInfo) {
         finishedSales.add(saleInfo);
     }
 }

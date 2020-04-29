@@ -17,16 +17,17 @@ class ViewTest {
     private ByteArrayOutputStream printoutBuffer;
     private PrintStream originalSysOut;
 
+    private Controller contr;
+
     @BeforeEach
     void setUp() {
         AccountingSystem acctSys = new AccountingSystem();
         SaleLog saleLog = new SaleLog();
-        DiscountCatalog discCat = new DiscountCatalog();
         RetailStore retStore = new RetailStore("Name", "Address");
         ItemInventory itemInv = new ItemInventory();
         Printer printer = new Printer();
         ExternalSystemHandler extSysHan = new ExternalSystemHandler(saleLog, itemInv, acctSys, printer);
-        Controller contr = new Controller(extSysHan, discCat, retStore);
+        contr = new Controller(extSysHan, retStore);
         testInstance = new View(contr);
 
         printoutBuffer = new ByteArrayOutputStream();
@@ -41,13 +42,17 @@ class ViewTest {
 
         printoutBuffer = null;
         System.setOut(originalSysOut);
+
+        contr = null;
     }
 
     @Test
     void testSimulatePurchase() {
         testInstance.simulatePurchase();
         String printout = printoutBuffer.toString();
-        String expectedOutput = "started";
-        assertTrue(printout.contains(expectedOutput), "UI started unsuccessfully");
+        String expectedOutputStarted = "started";
+        String expectedItemShown = "Running";
+        assertTrue(printout.contains(expectedOutputStarted), "UI started unsuccessfully");
+        assertTrue(printout.contains(expectedItemShown));
     }
 }

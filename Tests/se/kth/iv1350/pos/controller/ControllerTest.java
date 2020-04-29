@@ -4,8 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ControllerTest {
 
     @BeforeEach
@@ -18,5 +16,25 @@ class ControllerTest {
 
     @Test
     void startNewSale() {
+    }
+
+    @Test
+    void testStartNewSale() {
+    }
+
+    @Test
+    void scanItem() {
+    }
+
+    @Test
+    void endSale() {
+    }
+
+    @Test
+    void pay() {
+    }
+
+    @Test
+    void handleExternalSystems() {
     }
 }

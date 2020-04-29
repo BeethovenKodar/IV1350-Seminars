@@ -44,5 +44,9 @@ public class Item {
         return percentsOfVAT;
     }
 
+    public int getAmountPresent() {
+        return amountPresent;
+    }
+
 
 }

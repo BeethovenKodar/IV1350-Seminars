@@ -12,17 +12,17 @@ import se.kth.iv1350.pos.view.View;
 public class Main {
     /**
      * The main method that initializes the entire application, creating necessary objects.
+     *
      * @param args The application does not take any command line parameters.
      */
     public static void main(String[] args) {
         AccountingSystem acctSys = new AccountingSystem();
         SaleLog saleLog = new SaleLog();
-        DiscountCatalog discCat = new DiscountCatalog();
-        RetailStore retStore = new RetailStore("KTH-Shop", "Isafjordsgatan 2");
+        RetailStore retStore = new RetailStore("KTH-Shop", "Isafjordsgatan 22");
         ItemInventory itemInv = new ItemInventory();
         Printer printer = new Printer();
         ExternalSystemHandler extSysHan = new ExternalSystemHandler(saleLog, itemInv, acctSys, printer);
-        Controller contr = new Controller(extSysHan, discCat, retStore);
+        Controller contr = new Controller(extSysHan, retStore);
         View view = new View(contr);
         view.simulatePurchase();
     }

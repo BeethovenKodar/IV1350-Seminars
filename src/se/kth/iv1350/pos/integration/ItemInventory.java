@@ -61,7 +61,7 @@ public class ItemInventory {
      *
      * @param soldItems The items and with corresponding quantities.
      */
-    public void updateInventory(List<ItemSold> soldItems) {
+    void updateInventory(List<ItemSold> soldItems) {
         for (ItemSold soldItem : soldItems) {
             for (Item invItem : inventory) {
                 if (soldItem.getItem().getBarCode() == invItem.getBarCode())

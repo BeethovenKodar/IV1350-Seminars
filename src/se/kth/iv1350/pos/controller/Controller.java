@@ -10,13 +10,11 @@ import se.kth.iv1350.pos.model.Sale;
 public class Controller {
 
     private Sale sale;
-    private DiscountCatalog discCat;
     private RetailStore retStore;
     private ExternalSystemHandler extSysHan;
 
-    public Controller(ExternalSystemHandler extSysHan, DiscountCatalog discCat, RetailStore retStore) {
+    public Controller(ExternalSystemHandler extSysHan, RetailStore retStore) {
         this.extSysHan = extSysHan;
-        this.discCat = discCat;
         this.retStore = retStore;
     }
 
@@ -35,14 +33,7 @@ public class Controller {
      * @return A <code>DisplayDTO</code> that will contain information about the scanned item that will be displayed in the view.
      */
     public DisplayDTO scanItem (int barCode, int quantity) {
-        if (extSysHan.checkValidity(barCode)) {
-            ItemDTO itemDTO = extSysHan.getItem(barCode);
-            ItemSold itemSold = new ItemSold(itemDTO, quantity);
-            int currentPrice = sale.registerItem(itemSold);
-            return new DisplayDTO(itemSold, currentPrice);
-        } else {
-            return new DisplayDTO("Item not found.");
-        }
+        return extSysHan.scanItem(sale, barCode, quantity);
     }
 
     /**
@@ -54,24 +45,13 @@ public class Controller {
     }
 
     /**
-     * If the customer wants a discount this method is executed.
-     * @param customerID The customer's ID in the retail store's database.
-     * @return The updated price to be displayed in the view.
-     */
-    public DisplayDTO signalDiscountRequest(int customerID) {
-        int discountAmount = discCat.checkForDiscount(sale, customerID);
-        int updatedRunningTotal = sale.updateWithDiscount(discountAmount, customerID);
-        return new DisplayDTO(updatedRunningTotal);
-    }
-
-    /**
      * This method handles the payment.
      *
      * @param amountPaid The amount that the cashier has received from the customer.
      * @return A DisplayDTO containing the value for change.
      */
-    public DisplayDTO pay(int amountPaid) {
-        return new DisplayDTO(sale.calculateChange(amountPaid));
+    public void pay(int amountPaid) {
+        sale.calculateChange(amountPaid);
     }
 
     /**

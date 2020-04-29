@@ -20,7 +20,6 @@ public class Reciept {
     private int amountPaid;
     private int change;
     private int totalVAT = 12;
-    private String customerID;
 
     public Reciept (SaleInfoDTO saleInfoDTO) {
         this.storeName = saleInfoDTO.getRetStore().getStoreName();
@@ -30,7 +29,6 @@ public class Reciept {
         this.totalPrice = saleInfoDTO.getSale().getRunningTotal();
         this.amountPaid = saleInfoDTO.getSale().getAmountPaid();
         this.change = saleInfoDTO.getSale().getChange();
-        this.customerID = saleInfoDTO.getSale().getCustomerID();
     }
 
     public String makeRecieptToString() {

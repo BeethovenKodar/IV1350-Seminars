@@ -14,13 +14,13 @@ public class Sale {
 
     private List<ItemSold> boughtItems = new ArrayList<ItemSold>();
     private int runningTotal;
-    private String customerID = "000";
     private Date date;
     private int amountPaid;
     private int change;
 
     /**
-     * This method adds the specified item to the list of bought items, also
+     * This method adds the specified item to the list of bought items.
+     *
      * @param itemSold The item to be added to the sale
      * @return The updated total after the passed item has been registered.
      */
@@ -42,32 +42,19 @@ public class Sale {
     }
 
     /**
-     * Method that handles the updating of the final price after discounts.
-     *
-     * @param discountAmount The amount to be drawn off the runningTotal.
-     * @param customerID The customer issuing the discount request.
-     * @return The updated runningTotal, after discounts.
-     */
-    public int updateWithDiscount(int discountAmount, int customerID) {
-        this.customerID = String.valueOf(customerID);
-        updateTotal(discountAmount, 1);
-        return runningTotal;
-    }
-
-    /**
      * A method called when a payment is ongoing.
      *
      * @param amountPaid The amount given by the customer.
      * @return The difference between the amount paid and the final price.
      */
-    public int calculateChange(int amountPaid) {
+    public void calculateChange(int amountPaid) {
         this.amountPaid = amountPaid;
         this.change = amountPaid - runningTotal;
-        return this.change;
     }
 
     /**
      * This method creates a DTO containing information about a completed sale.
+     *
      * @param retStore Needed to complete the sale information.
      * @return A DTO with complete sale information.
      */
@@ -84,20 +71,16 @@ public class Sale {
         date = new Date();
     }
 
+    public Date getDate() {
+        return this.date;
+    }
+
     public int getRunningTotal() {
         return runningTotal;
     }
 
     public List<ItemSold> getBoughtItems() {
         return boughtItems;
-    }
-
-    public Date getDate() {
-        return this.date;
-    }
-
-    public String getCustomerID() {
-        return this.customerID;
     }
 
     public int getAmountPaid() {
