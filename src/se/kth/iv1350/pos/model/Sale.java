@@ -1,8 +1,8 @@
 package se.kth.iv1350.pos.model;
 
-import se.kth.iv1350.pos.integration.ItemSold;
-import se.kth.iv1350.pos.integration.SaleInfoDTO;
+import se.kth.iv1350.pos.integration.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,11 +12,37 @@ import java.util.List;
  */
 public class Sale {
 
-    private List<ItemSold> boughtItems = new ArrayList<ItemSold>();
+    private ExternalSystemHandler extSysHan;
+    private List<ItemSold> boughtItems = new ArrayList<>();
     private int runningTotal;
-    private Date date;
+    private String date;
     private int amountPaid;
     private int change;
+    private SaleObserver saleObserver;
+
+    public Sale (ExternalSystemHandler extSysHan) {
+        this.extSysHan = extSysHan;
+    }
+
+    public void addSaleObserver(SaleObserver saleObserver) {
+        this.saleObserver = saleObserver;
+    }
+
+    /**
+     * This method retrieves an item, and then return it.
+     *
+     * @param barCode The barcode that is connected to one item.
+     * @param quantity Quantity bought of the given barcode.
+     * @return A DisplayDTO that holds information about the scanned item.
+     * @throws ItemInventoryException Thrown if there is an error when trying to fetch an item.
+     * @throws ItemInventoryException Thrown if there is an error when trying to fetch an item.
+     */
+    public DisplayDTO scanItem (int barCode, int quantity) throws InvalidBarcodeException, ItemInventoryException {
+        ItemDTO itemDTO = extSysHan.getItem(barCode);
+        ItemSold itemSold = new ItemSold(itemDTO, quantity);
+        int currentPrice = registerItem(itemSold);
+        return new DisplayDTO(itemSold, currentPrice);
+    }
 
     /**
      * This method adds the specified item to the list of bought items.
@@ -41,6 +67,13 @@ public class Sale {
         return false;
     }
 
+    public SaleInfoDTO printReceipt(Printer printer, RetailStore retStore) {
+        SaleInfoDTO saleInfo = createSaleInfoDTO(retStore);
+        Reciept reciept = new Reciept(saleInfo);
+        printer.print(reciept.makeRecieptToString());
+        return saleInfo;
+    }
+
     /**
      * A method called when a payment is ongoing.
      *
@@ -50,6 +83,11 @@ public class Sale {
     public void calculateChange(int amountPaid) {
         this.amountPaid = amountPaid;
         this.change = amountPaid - runningTotal;
+        signalToListeners(runningTotal);
+    }
+
+    private void signalToListeners(int finalPrice) {
+        saleObserver.paymentCompleted(finalPrice);
     }
 
     /**
@@ -68,10 +106,11 @@ public class Sale {
     }
 
     private void setDate() {
-        date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM @ hh:mm:ss");
+        date = dateFormat.format(new Date());
     }
 
-    public Date getDate() {
+    public String getDate() {
         return this.date;
     }
 

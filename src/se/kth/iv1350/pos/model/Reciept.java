@@ -14,7 +14,7 @@ public class Reciept {
 
     private String storeName;
     private String storeAddress;
-    private Date date;
+    private String date;
     private List<ItemSold> boughtItems = new ArrayList<ItemSold>();
     private int totalPrice;
     private int amountPaid;
@@ -32,18 +32,18 @@ public class Reciept {
     }
 
     public String makeRecieptToString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("-----------------------");
-        sb.append("\n" + storeName + "\n" + storeAddress + "\n");
-        sb.append(date + "\n");
+        StringBuilder receipt = new StringBuilder();
+        receipt.append("-----------------------");
+        receipt.append("\n" + storeName + "\n" + storeAddress + "\n");
+        receipt.append(date + "\n");
         for (ItemSold item : boughtItems) {
-            sb.append("\n" + item.getQuantity() + " " + item.getItem().getItemName() + " @ " +
+            receipt.append("\n" + item.getQuantity() + " " + item.getItem().getItemName() + " @ " +
                       item.getItem().getItemPrice() + " kr/each - " +
                       item.getQuantity()*item.getItem().getItemPrice() + " kr");
         }
-        sb.append("\n\n" + "Total price: " + totalPrice + "\n");
-        sb.append("Paid in cash: " + amountPaid + "\nChange: " + change);
-        sb.append("\n-----------------------");
-        return sb.toString();
+        receipt.append("\n\n" + "Total price: " + totalPrice + "\n");
+        receipt.append("Paid in cash: " + amountPaid + "\nChange: " + change);
+        receipt.append("\n-----------------------");
+        return receipt.toString();
     }
 }

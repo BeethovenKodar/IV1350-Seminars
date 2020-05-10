@@ -26,30 +26,39 @@ public class ItemInventory {
         inventory.add(new Item("Candy", 26, 6, 15,13));
     }
 
+
     /**
      * This method searches for a matching barcode in the inventory.
      *
      * @param barCode The barcode that is searched for.
      * @return <code>true</code> if it was found, <code>false</code> if not found.
      */
-    public boolean checkValidity (int barCode) {
+    /*public boolean checkValidity (int barCode) {
         for (Item item : inventory) {
             if (item.getBarCode() == barCode)
                 return true;
         }
         return false;
-    }
+    )*/
 
     /**
      * Fetches the validated item's information from the inventory.
      *
      * @param barCode The barcode connected to an item that should be fetched.
      * @return <code>ItemDTO</code> is an object containing information about the scanned item
+     * @throws InvalidBarcodeException Thrown when a barcode does not exist.
+     * @throws DataBaseException Should be interpreted as a connection problem between the
+     * program and an external data base.
      */
-    public ItemDTO getItem (int barCode) {
+    public ItemDTO getItem (int barCode) throws InvalidBarcodeException, DataBaseException {
+        if (barCode == 10)
+            throw new DataBaseException("The item inventory's data base could not be reached, SQL error.");
+
         int i = 0;
         while (inventory.get(i).getBarCode() != barCode) {
             i++;
+            if(i >= inventory.size())
+                throw new InvalidBarcodeException(barCode);
         }
         Item item = inventory.get(i);
         return new ItemDTO (item.getItemPrice(), item.getItemName(), item.getPercentsOfVAT(), item.getBarCode());

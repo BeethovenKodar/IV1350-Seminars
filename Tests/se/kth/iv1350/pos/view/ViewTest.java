@@ -26,8 +26,8 @@ class ViewTest {
         RetailStore retStore = new RetailStore("Name", "Address");
         ItemInventory itemInv = new ItemInventory();
         Printer printer = new Printer();
-        ExternalSystemHandler extSysHan = new ExternalSystemHandler(saleLog, itemInv, acctSys, printer);
-        contr = new Controller(extSysHan, retStore);
+        ExternalSystemHandler extSysHan = new ExternalSystemHandler(saleLog, itemInv, acctSys);
+        contr = new Controller(extSysHan, retStore, printer);
         testInstance = new View(contr);
 
         printoutBuffer = new ByteArrayOutputStream();

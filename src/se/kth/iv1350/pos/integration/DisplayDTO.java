@@ -23,17 +23,6 @@ public class DisplayDTO {
     }
 
     /**
-     * A contructor used when an item isn't found.
-     *
-     * @param message A string that holds a string saying that the given barcode wasn't found.
-     */
-    public DisplayDTO (String message) {
-        this.itemSold = null;
-        this.amount = -1;
-        this.message = message;
-    }
-
-    /**
      * A contructor using when only one piece of information as an integer should be displayed.
      *
      * @param amount The amount to be displayed.

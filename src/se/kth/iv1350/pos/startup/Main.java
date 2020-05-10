@@ -21,8 +21,8 @@ public class Main {
         RetailStore retStore = new RetailStore("KTH-Shop", "Isafjordsgatan 22");
         ItemInventory itemInv = new ItemInventory();
         Printer printer = new Printer();
-        ExternalSystemHandler extSysHan = new ExternalSystemHandler(saleLog, itemInv, acctSys, printer);
-        Controller contr = new Controller(extSysHan, retStore);
+        ExternalSystemHandler extSysHan = new ExternalSystemHandler(saleLog, itemInv, acctSys);
+        Controller contr = new Controller(extSysHan, retStore, printer);
         View view = new View(contr);
         view.simulatePurchase();
     }

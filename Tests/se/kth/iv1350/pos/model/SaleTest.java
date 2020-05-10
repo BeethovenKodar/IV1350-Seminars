@@ -3,9 +3,7 @@ package se.kth.iv1350.pos.model;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import se.kth.iv1350.pos.integration.Item;
-import se.kth.iv1350.pos.integration.ItemDTO;
-import se.kth.iv1350.pos.integration.ItemSold;
+import se.kth.iv1350.pos.integration.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,7 +14,7 @@ class SaleTest {
 
     @BeforeEach
     void setUp() {
-        saleInstance = new Sale();
+        saleInstance = new Sale(new ExternalSystemHandler(new SaleLog(), new ItemInventory(), new AccountingSystem()));
     }
 
     @AfterEach

@@ -3,10 +3,7 @@ package se.kth.iv1350.pos.model;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import se.kth.iv1350.pos.integration.ItemDTO;
-import se.kth.iv1350.pos.integration.ItemSold;
-import se.kth.iv1350.pos.integration.Printer;
-import se.kth.iv1350.pos.integration.SaleInfoDTO;
+import se.kth.iv1350.pos.integration.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -33,7 +30,8 @@ class RecieptTest {
 
     @Test
     void makeRecieptToString() {
-        Sale sale = new Sale();
+        ExternalSystemHandler extSysHan = new ExternalSystemHandler(new SaleLog(), new ItemInventory(), new AccountingSystem());
+        Sale sale = new Sale(extSysHan);
         ItemSold itemSold = new ItemSold(new ItemDTO(10,"Candy",6,10), 4);
         sale.registerItem(itemSold);
         sale.calculateChange(100);
@@ -49,7 +47,6 @@ class RecieptTest {
         assertTrue(result.contains(Integer.toString(itemSold.getQuantity())), "Item quantity not showing.");
         assertTrue(result.contains("Total price: 40"), "Total price not showing.");
         assertTrue(result.contains("Change: 60"), "Change not showing.");
-        assertTrue(result.contains("2020"), "Date not showing.");
         assertTrue(result.contains("test"));
     }
 }
